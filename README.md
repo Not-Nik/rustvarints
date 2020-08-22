@@ -9,10 +9,10 @@ use ruststreams::Stream;
 fn main() {
     // Requires ruststreams from gh/Not-Nik/ruststreams
     let mut stream = Stream::new();
-    stream.write_var_int(42);
-    stream.write_var_int(69);
-    assert_eq!(stream.read_var_int(), 42);
-    assert_eq!(stream.read_var_int(), 69);
+    stream.write_var_int(42).expect("write");
+    stream.write_var_int(69).expect("write");
+    assert_eq!(stream.read_var_int().expect("read"), 42);
+    assert_eq!(stream.read_var_int().expect("read"), 69);
 }
 ```
 
