@@ -24,12 +24,12 @@ mod tests {
 
 use std::io::{Read, Write, Error, Result, ErrorKind};
 
-pub fn get_var_int_size(var_int: i32) -> i8
+pub fn get_var_int_size(var_int: i32) -> usize
 {
     get_var_long_size(var_int as i64)
 }
 
-pub fn get_var_long_size(var_long: i64) -> i8
+pub fn get_var_long_size(var_long: i64) -> usize
 {
     let mut u_val = var_long as u64;
     let mut count = 0;
