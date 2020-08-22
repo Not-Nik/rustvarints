@@ -49,14 +49,14 @@ macro_rules! get_integer_size {
     }
 }
 
-fn get_var_int_size(var_int: i32) -> i8
+pub fn get_var_int_size(var_int: i32) -> i8
 {
     let mut u_val = var_int as u32;
     let mut count = 0;
     get_integer_size!(count, u_val);
 }
 
-fn get_var_long_size(var_long: i64) -> i8
+pub fn get_var_long_size(var_long: i64) -> i8
 {
     let mut u_val = var_long as u64;
     let mut count = 0;
