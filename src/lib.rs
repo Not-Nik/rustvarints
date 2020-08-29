@@ -24,13 +24,11 @@ mod tests {
 
 use std::io::{Read, Write, Error, Result, ErrorKind};
 
-pub fn get_var_int_size(var_int: i32) -> usize
-{
+pub fn get_var_int_size(var_int: i32) -> usize {
     get_var_long_size(var_int as i64)
 }
 
-pub fn get_var_long_size(var_long: i64) -> usize
-{
+pub fn get_var_long_size(var_long: i64) -> usize {
     let mut u_val = var_long as u64;
     let mut count = 0;
     loop {
@@ -41,21 +39,18 @@ pub fn get_var_long_size(var_long: i64) -> usize
     count
 }
 
-pub trait VarWrite
-{
+pub trait VarWrite {
     fn write_var_int(&mut self, var_int: i32) -> Result<usize>;
     fn write_var_long(&mut self, var_long: i64) -> Result<usize>;
 }
 
-pub trait VarRead
-{
+pub trait VarRead {
     fn read_var_int(&mut self) -> Result<i32>;
     fn read_var_long(&mut self) -> Result<i64>;
 }
 
 impl<T> VarWrite for T
-    where T: Write
-{
+    where T: Write {
     fn write_var_int(&mut self, var_int: i32) -> Result<usize> {
         self.write_var_long(var_int as i64)
     }
@@ -84,8 +79,7 @@ impl<T> VarWrite for T
 }
 
 impl<T> VarRead for T
-    where T: Read
-{
+    where T: Read {
     fn read_var_int(&mut self) -> Result<i32> {
         let mut num_read: usize = 0;
         let mut result: i32 = 0;
