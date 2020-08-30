@@ -1,8 +1,8 @@
 #[cfg(test)]
 mod tests {
+    use crate::{get_var_int_size, get_var_long_size, VarRead, VarWrite};
     use ruststreams::Stream;
-    use std::io::{Result};
-    use crate::{VarWrite, VarRead, get_var_int_size, get_var_long_size};
+    use std::io::Result;
 
     #[test]
     fn test() {
@@ -22,7 +22,7 @@ mod tests {
     }
 }
 
-use std::io::{Read, Write, Error, Result, ErrorKind};
+use std::io::{Error, ErrorKind, Read, Result, Write};
 
 pub fn get_var_int_size(var_int: i32) -> usize {
     get_var_long_size(var_int as i64)
@@ -34,7 +34,9 @@ pub fn get_var_long_size(var_long: i64) -> usize {
     loop {
         u_val >>= 7;
         count += 1;
-        if u_val == 0 { break; }
+        if u_val == 0 {
+            break;
+        }
     }
     count
 }
@@ -50,7 +52,9 @@ pub trait VarRead {
 }
 
 impl<T> VarWrite for T
-    where T: Write {
+where
+    T: Write,
+{
     fn write_var_int(&mut self, var_int: i32) -> Result<usize> {
         self.write_var_long(var_int as i64)
     }
@@ -72,14 +76,18 @@ impl<T> VarWrite for T
                 count += r.unwrap();
             }
 
-            if u_val == 0 { break; }
-        };
+            if u_val == 0 {
+                break;
+            }
+        }
         Ok(count)
     }
 }
 
 impl<T> VarRead for T
-    where T: Read {
+where
+    T: Read,
+{
     fn read_var_int(&mut self) -> Result<i32> {
         let mut num_read: usize = 0;
         let mut result: i32 = 0;
@@ -98,7 +106,9 @@ impl<T> VarRead for T
             if num_read > 5 {
                 return Err(Error::from(ErrorKind::Other));
             }
-            if (read[0] as i32 & 0b10000000) == 0 { break; }
+            if (read[0] as i32 & 0b10000000) == 0 {
+                break;
+            }
         }
         Ok(result)
     }
@@ -122,7 +132,9 @@ impl<T> VarRead for T
             if num_read > 10 {
                 return Err(Error::from(ErrorKind::Other));
             }
-            if (read[0] as i32 & 0b10000000) == 0 { break; }
+            if (read[0] as i32 & 0b10000000) == 0 {
+                break;
+            }
         }
         Ok(result)
     }
