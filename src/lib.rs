@@ -97,11 +97,11 @@ where
             let r = self.read(read);
             if !r.is_ok() {
                 return Err(Error::from(ErrorKind::Other));
-            } else {
-                num_read += r.unwrap();
             }
             let value: i32 = read[0] as i32 & 0b01111111;
             result |= value << (7 * num_read);
+
+            num_read += 1;
 
             if num_read > 5 {
                 return Err(Error::from(ErrorKind::Other));
@@ -122,12 +122,12 @@ where
             let r = self.read(read);
             if !r.is_ok() {
                 return Err(Error::from(ErrorKind::Other));
-            } else {
-                num_read += r.unwrap();
             }
 
             let value: i64 = read[0] as i64 & 0b01111111;
             result |= value << (7 * num_read);
+
+            num_read += 1;
 
             if num_read > 10 {
                 return Err(Error::from(ErrorKind::Other));
